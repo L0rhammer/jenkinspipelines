@@ -5,11 +5,13 @@ pipeline {
     stages {
        stage("Clone") {
            steps {
+            git clone https://github.com/L0rhammer/jenkinscripts.git
            }
        }
        
        stage("Build") {
            steps {
+            sh ./build.sh
            }
        }
        
