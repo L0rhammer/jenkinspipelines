@@ -5,7 +5,7 @@ pipeline {
     stages {
        stage("Clone") {
            steps {
-            git clone https://github.com/L0rhammer/jenkinscripts.git
+            git credentialsId: 'ea75b4c6-ea93-443b-9820-e63135b46ff3', url: 'https://github.com/L0rhammer/jenkinspipelines.git'
            }
        }
        
