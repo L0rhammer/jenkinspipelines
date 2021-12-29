@@ -20,6 +20,18 @@ pipeline {
             sh "bash ./test.sh"
            }
        }
+    }    
+    post {
+       always {
+          steps {
+            writeFile file: "artifact.txt"
+          }
+          steps {
+            archiveArtifacts artifacts: "artifact.txt"
+          }
+       }
+       failure {
+       
+       }
     }
-    
 }
