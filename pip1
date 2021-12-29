@@ -22,8 +22,8 @@ pipeline {
        }
     }    
     post {
-       succsess {
-           sh "echo 'Eto yspeshnij SUCCSESS' >artifact.txt"
+       success {
+           sh "echo 'Eto yspeshnij SUCCESS' >artifact.txt"
        }
        failure {
            sh "echo 'Eto FIASKO bratan' >artifact.txt"
