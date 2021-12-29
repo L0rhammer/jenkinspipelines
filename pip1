@@ -24,7 +24,7 @@ pipeline {
     post {
        always {
            echo "${currentBuild.result}"
-           sh 'echo ${currentBuild.result} > artifact.txt'
+           sh "echo ${currentBuild.result} > artifact.txt"
            archiveArtifacts artifacts: "artifact.txt"
        }
        failure {
