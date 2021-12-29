@@ -17,21 +17,23 @@ pipeline {
        
        stage("Test") {
            steps {
-            sh "bash ./test.sh"
+            sh "bash ./test.sh 2>test_result.txt"
            }
        }
     }    
     post {
        always {
           steps {
-            writeFile file: "artifact.txt"
+            writeFile file: 'artifact.txt'
           }
           steps {
             archiveArtifacts artifacts: "artifact.txt"
           }
        }
        failure {
-       
+          steps {
+           archiveArtifacts artifacts: "test_result.txt"
+          } 
        }
     }
 }
