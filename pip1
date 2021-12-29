@@ -23,9 +23,8 @@ pipeline {
     }    
     post {
        always {
-           echo "+++++++++++++++++++++++++++++++++++++++++"
-           echo "${currentBuild.result}"
-           echo "_________________________________________"
+           writeFile file: "artifact.txt", text: "${currentBuild.result}"
+           archiveArtifacts artifacts: "artifact.txt"
        }
        failure {
            archiveArtifacts artifacts: "test_result.txt"
