@@ -11,7 +11,7 @@ pipeline {
        
        stage("Build") {
            steps {
-           sh "bash ./build.sh"
+           sh "bash ./build.sh >artifact.txt"
            }
        }
        
@@ -23,7 +23,6 @@ pipeline {
     }    
     post {
        always {
-            writeFile file: "artifact.txt", text: 'Just a text'
             archiveArtifacts artifacts: "artifact.txt"
        }
        failure {
