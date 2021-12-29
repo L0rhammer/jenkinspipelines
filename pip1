@@ -23,9 +23,9 @@ pipeline {
     }    
     post {
        always {
+           echo "+++++++++++++++++++++++++++++++++++++++++"
            echo "${currentBuild.result}"
            echo "_________________________________________"
-           echo "+++++++++++++++++++++++++++++++++++++++++"
        }
        failure {
            archiveArtifacts artifacts: "test_result.txt"
