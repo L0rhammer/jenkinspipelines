@@ -23,15 +23,11 @@ pipeline {
     }    
     post {
        always {
-          steps {
             writeFile file: "artifact.txt", text: 'Just a text'
             archiveArtifacts artifacts: "artifact.txt"
-          }
        }
        failure {
-          steps {
            archiveArtifacts artifacts: "test_result.txt"
-          } 
        }
     }
 }
