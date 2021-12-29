@@ -22,15 +22,12 @@ pipeline {
        }
     }    
     post {
-       success {
-           sh "echo 'Eto yspeshnij SUCCESS' >artifact.txt"
+       always {
+           sh 'echo ${currenBuild.result} > artifact.txt'
+           archiveArtifacts artifacts: "artifact.txt"
        }
        failure {
-           sh "echo 'Eto FIASKO bratan' >artifact.txt"
            archiveArtifacts artifacts: "test_result.txt"
-       }
-       always {
-           archiveArtifacts artifacts: "artifact.txt"
        }
     }
 }
