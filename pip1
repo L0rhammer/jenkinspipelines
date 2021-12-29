@@ -23,6 +23,7 @@ pipeline {
     }    
     post {
        always {
+            echo ".....________ ${BUILD_STATUS}________......"
             archiveArtifacts artifacts: "artifact.txt"
        }
        failure {
