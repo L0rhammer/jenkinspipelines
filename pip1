@@ -23,7 +23,7 @@ pipeline {
     }    
     post {
        always {
-           echo ${currenBuild.result}
+           echo "${currenBuild.result}"
            sh 'echo ${currenBuild.result} > artifact.txt'
            archiveArtifacts artifacts: "artifact.txt"
        }
