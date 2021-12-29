@@ -24,7 +24,7 @@ pipeline {
     post {
        always {
           steps {
-            writeFile file: 'artifact.txt'
+            writeFile file: "artifact.txt", text: 'Just a text'
             archiveArtifacts artifacts: "artifact.txt"
           }
        }
