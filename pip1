@@ -11,7 +11,7 @@ pipeline {
        
        stage("Build") {
            steps {
-           sh "bash ./build.sh >artifact.txt"
+           sh "bash ./build.sh "
            }
        }
        
@@ -22,12 +22,15 @@ pipeline {
        }
     }    
     post {
-       always {
-            echo ".....________ ${BUILD_STATUS}________......"
-            archiveArtifacts artifacts: "artifact.txt"
+       succsess {
+           sh "echo 'Eto yspeshnij SUCCSESS' >artifact.txt"
        }
        failure {
+           sh "echo 'Eto FIASKO bratan' >artifact.txt"
            archiveArtifacts artifacts: "test_result.txt"
+       }
+       always {
+           archiveArtifacts artifacts: "artifact.txt"
        }
     }
 }
