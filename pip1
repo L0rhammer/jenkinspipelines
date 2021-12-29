@@ -11,13 +11,13 @@ pipeline {
        
        stage("Build") {
            steps {
-            bash ./build.sh
+           sh "bash ./build.sh"
            }
        }
        
        stage("Test") {
            steps {
-            bash ./test.sh
+            sh "bash ./test.sh"
            }
        }
     }
