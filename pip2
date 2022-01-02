@@ -11,7 +11,7 @@ node("slave-jnlp") {
        stage("Test") {
             sh "bash ./test.sh >test_result.txt"
        }  
-    post {
+       stage("post") {
        always {
            writeFile file: "artifact.txt", text: "${currentBuild.result}"
            archiveArtifacts artifacts: "artifact.txt"
