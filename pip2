@@ -1,5 +1,5 @@
 node("slave-jnlp") {
-        
+     try {  
        stage("Clone") {
             git credentialsId: 'ea75b4c6-ea93-443b-9820-e63135b46ff3', url: 'https://github.com/L0rhammer/jenkinscripts.git'
        }
@@ -11,12 +11,12 @@ node("slave-jnlp") {
        stage("Test") {
             sh "bash ./test.sh >test_result.txt"
        }  
-       stage("post") {
-       always {
-           writeFile file: "artifact.txt", text: "${currentBuild.result}"
-           archiveArtifacts artifacts: "artifact.txt"
-       }
-       failure {
-           archiveArtifacts artifacts: "test_result.txt"
+     } finally {
+                   writeFile file: "artifact.txt", text: "${currentBuild.currentResult}"
+                   archiveArtifacts artifacts: "artifact.txt"
+                }
+               failure {
+                    archiveArtifacts artifacts: "test_result.txt"
+                }
        }
 }
