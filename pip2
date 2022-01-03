@@ -6,13 +6,15 @@ node("slave-jnlp") {
            sh "bash ./build.sh "
        }
        try {
-       stage("Test") {
-            sh "bash ./test.sh >test_result.txt"
+          stage("Test") {
+               sh "bash ./test.sh >test_result.txt"
+          }   
        } catch(er) {
             archiveArtifacts artifacts: "test_result.txt"
          }  
-     } finally {
-                   writeFile file: "artifact.txt", text: "${currentBuild.result}"
-                   archiveArtifacts artifacts: "artifact.txt"
+       finally {
+             echo "${currentBuild.result}"
+             writeFile file: "artifact.txt", text: "${currentBuild.result}"
+             archiveArtifacts artifacts: "artifact.txt"
        }
 }
