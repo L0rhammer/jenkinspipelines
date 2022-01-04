@@ -1,0 +1,35 @@
+pipeline {
+        
+    agent any
+    
+    tools {
+          maven "M3"
+    }
+        
+    stages {
+       stage("Clone") {
+           steps {
+             url: 'git https://github.com/jenkinsci/prometheus-plugin'
+           }
+       }
+       
+       stage("Build") {
+           steps {
+           sh "mvn clean install
+               mvn hpi:hpi"
+           }
+       }
+       
+       stage("Test") {
+           steps {
+            sh "mvn test"
+           }
+       }
+    }    
+    post {
+       always {
+           writeFile file: "artifact.txt", text: "${currentBuild.result}"
+           archiveArtifacts artifacts: "artifact.txt"
+       }
+    }
+}
