@@ -1,5 +1,5 @@
 pipeline { 
-    agent {label "slave-ssh"}
+    agent {label "slave-ssh && slave-jnlp"}
     
     tools {maven 'M3'}
         
