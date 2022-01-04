@@ -1,31 +1,25 @@
-pipeline {
-        
-    agent any
+pipeline { 
+    agent {label "slave-ssh"}
     
-    tools {
-          maven "M3"
-    }
+    tools {maven 'M3'}
         
     stages {
        stage("Clone") {
            steps {
-             url: 'git https://github.com/jenkinsci/prometheus-plugin'
-           }
+             sh 'cd /home/jenkins/ && git clone https://github.com/jenkinsci/prometheus-plugin && cd /home/jenkins/prometheus-plugin/ && git checkout prometheus-2.0.10'
+            }
        }
-       
        stage("Build") {
            steps {
-           sh "mvn clean install
-               mvn hpi:hpi"
-           }
-       }
-       
+             sh "cd /home/jenkins/prometheus-plugin/ && mvn clean install && mvn hpi:hpi"
+            } 
+       }    
        stage("Test") {
            steps {
-            sh "mvn test"
+            sh "cd /home/jenkins/prometheus-plugin/ && mvn test"
            }
        }
-    }    
+    }
     post {
        always {
            writeFile file: "artifact.txt", text: "${currentBuild.result}"
