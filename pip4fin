@@ -42,7 +42,7 @@ pipeline {
                       $currentBuild.result="FAILURE"
                       echo "Build result $err2: FAILURE"
                     fi  
-                    '''  
+                  '''  
                 }
             } 
        }
