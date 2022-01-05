@@ -1,0 +1,56 @@
+pipeline { 
+    agent {label 'slave-jnlp'}   
+    tools {maven 'M3'}
+        
+    stages {
+       stage("Clone") {
+           steps {
+             sh 'cd /home/jenkins/ && git clone https://github.com/jenkinsci/prometheus-plugin && cd /home/jenkins/prometheus-plugin/ && git checkout prometheus-2.0.10'
+            }
+       }
+       stage("Build") {
+           steps {
+               sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ && mvn clean install && mvn hpi:hpi'
+               script {
+                  sh '''#!/bin/bash
+                        err1=$((0 + $RANDOM % 3))
+                        echo $err1
+                        if (("$err1" == 0))
+                        then
+                      currentBuild.result="SUCCESS"
+                      echo "Build result $err1: SUCCESS"                         
+                        else
+                      currentBuild.result="FAILURE"
+                      echo "Build result $err1: FAILURE"
+                        fi 
+                  ''' 
+                }
+            } 
+       }    
+       stage("Test") {
+             steps {
+               sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ &&  mvn test'
+               script {
+                 sh '''
+                    #!/bin/bash
+                    err2=$((0 + $RANDOM % 3))
+                    if (("$err2" == 0))
+                    then
+                      currentBuild.result="SUCCESS"
+                      echo "Build result $err2: SUCCESS"
+                    else
+                      currentBuild.result="FAILURE"
+                      echo "Build result $err2: FAILURE"
+                    fi  
+                    '''  
+                }
+            } 
+       }
+    }
+    post {
+       always {
+           writeFile file: "artifact.txt", text: "${currentBuild.result}"
+           archiveArtifacts artifacts: "artifact.txt"
+       }
+    }
+}
