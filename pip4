@@ -10,23 +10,22 @@ pipeline {
        }
        stage("Build") {
            steps {
-               sh "sleep $(shuf -i 30-60 -n 1)"
+               sh 'sleep $(shuf -i 30-60 -n 1)'
                script {
-                  sh '''
-                    #!/bin/bash
-                    err1=$((0 + $RANDOM % 3))
-                    if [err1 == 0]
-                    then
-                      cd /home/jenkins/prometheus-plugin/ && mvn clean install && mvn hpi:hpi
-                    else
-                      exit()
-                     '''  
+                  sh """#!/bin/bash
+                        err1=$((0 + $RANDOM % 3))
+                        if [err1 == 0]
+                        then
+                         cd /home/jenkins/prometheus-plugin/ && mvn clean install && mvn hpi:hpi
+                        else
+                         exit()
+                  """  
                 }
             } 
        }    
        stage("Test") {
              steps {
-               sh "sleep $(shuf -i 30-60 -n 1)"
+               sh 'sleep $(shuf -i 30-60 -n 1)'
                script {
                  sh '''
                     #!/bin/bash
