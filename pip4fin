@@ -17,10 +17,10 @@ pipeline {
                         echo $err1
                         if (("$err1" == 0))
                         then
-                      currentBuild.result="SUCCESS"
+                      $currentBuild.result="SUCCESS"
                       echo "Build result $err1: SUCCESS"                         
                         else
-                      currentBuild.result="FAILURE"
+                      $currentBuild.result="FAILURE"
                       echo "Build result $err1: FAILURE"
                         fi 
                   ''' 
@@ -36,10 +36,10 @@ pipeline {
                     err2=$((0 + $RANDOM % 3))
                     if (("$err2" == 0))
                     then
-                      currentBuild.result="SUCCESS"
+                      $currentBuild.result="SUCCESS"
                       echo "Build result $err2: SUCCESS"
                     else
-                      currentBuild.result="FAILURE"
+                      $currentBuild.result="FAILURE"
                       echo "Build result $err2: FAILURE"
                     fi  
                     '''  
