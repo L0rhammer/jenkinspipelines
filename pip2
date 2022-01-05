@@ -8,9 +8,11 @@ node("slave-jnlp") {
        try {
           stage("Test") {
                sh "bash ./test.sh >test_result.txt"
+               currentBuild.result="SUCCESS"
           }   
        } catch(er) {
             archiveArtifacts artifacts: "test_result.txt"
+            currentBuild.result="FAIL"
          }  
        finally {
              echo "${currentBuild.result}"
