@@ -12,7 +12,7 @@ node("slave-jnlp") {
           }   
        } catch(er) {
             archiveArtifacts artifacts: "test_result.txt"
-            currentBuild.result="FAIL"
+            currentBuild.result="FAILURE"
          }  
        finally {
              echo "${currentBuild.result}"
