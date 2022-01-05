@@ -15,7 +15,7 @@ pipeline {
        }
        stage("Build") {
            steps {
-               sh "sleep $(shuf -i 30-60 -n 1)"
+               sh 'sleep $(shuf -i 30-60 -n 1)'
                script {
                   if (random_num1=0) {
                      sh 'cd /home/jenkins/prometheus-plugin/ && mvn clean install && mvn hpi:hpi'
@@ -27,7 +27,7 @@ pipeline {
        }    
        stage("Test") {
              steps {
-               sh "sleep $(shuf -i 30-60 -n 1)"
+               sh 'sleep $(shuf -i 30-60 -n 1)'
                script {
                   if (random_num2=0) {
                      sh 'cd /home/jenkins/prometheus-plugin/ &&  mvn test'
