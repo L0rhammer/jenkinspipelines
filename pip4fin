@@ -17,10 +17,10 @@ pipeline {
                         echo $err1
                         if (("$err1" == 0))
                         then
-                      $currentBuild.result="SUCCESS"
+                      currentBuild.result="SUCCESS"
                       echo "Build result $err1: SUCCESS"                         
                         else
-                      $currentBuild.result="FAILURE"
+                      currentBuild.result="FAILURE"
                       echo "Build result $err1: FAILURE"
                         fi 
                   ''' 
@@ -31,18 +31,18 @@ pipeline {
              steps {
                sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ &&  mvn test'
                script {
-                 sh '''
-                    #!/bin/bash
-                    err2=$((0 + $RANDOM % 3))
-                    if (("$err2" == 0))
-                    then
-                      $currentBuild.result="SUCCESS"
-                      echo "Build result $err2: SUCCESS"
-                    else
-                      $currentBuild.result="FAILURE"
+                  sh '''#!/bin/bash
+                        err2=$((0 + $RANDOM % 3))
+                        echo $err2
+                        if (("$err2" == 0))
+                        then
+                      currentBuild.result="SUCCESS"
+                      echo "Build result $err2: SUCCESS"                         
+                        else
+                      currentBuild.result="FAILURE"
                       echo "Build result $err2: FAILURE"
-                    fi  
-                  '''  
+                        fi 
+                  ''' 
                 }
             } 
        }
