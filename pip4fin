@@ -10,7 +10,7 @@ pipeline {
        }
        stage("Build") {
            steps {
-               sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ && mvn clean install && mvn hpi:hpi && err1=$(shuf -i0-1 -n1) > /home/jenkins/prometheus-plugin/errorcode'
+               sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ && mvn clean install && mvn hpi:hpi && err1=$(shuf -i0-1 -n1) > /home/jenkins/workspace/Task4Full/errorcode'
               script {
                   res1 = readFile('errorcode').trim()
                   if (res1 == 0) {
@@ -23,7 +23,7 @@ pipeline {
        }    
        stage("Test") {
              steps {
-               sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ &&  mvn test && err2=$(shuf -i0-1 -n1) > /home/jenkins/prometheus-plugin/errorcode'
+               sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ &&  mvn test && err2=$(shuf -i0-1 -n1) > /home/jenkins/workspace/Task4Full/errorcode'
               script {
                   res2 = readFile('errorcode').trim()
                   if (res2 == 0) {
