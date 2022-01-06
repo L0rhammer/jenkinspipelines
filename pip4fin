@@ -12,7 +12,7 @@ pipeline {
            steps {
                sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ && mvn clean install && mvn hpi:hpi && err1=$(shuf -i0-1 -n1) > /home/jenkins/workspace/Task4Full/errorcode'
               script {
-                  res1 = readFile('errorcode').trim()
+                  res1 = readFile('/home/jenkins/workspace/Task4Full/errorcode').trim()
                   if (res1 == 0) {
                   currentBuild.result="SUCCESS"
                   } else {
@@ -25,7 +25,7 @@ pipeline {
              steps {
                sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ &&  mvn test && err2=$(shuf -i0-1 -n1) > /home/jenkins/workspace/Task4Full/errorcode'
               script {
-                  res2 = readFile('errorcode').trim()
+                  res2 = readFile('/home/jenkins/workspace/Task4Full/errorcode').trim()
                   if (res2 == 0) {
                   currentBuild.result="SUCCESS"
                   } else {
