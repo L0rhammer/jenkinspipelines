@@ -10,40 +10,28 @@ pipeline {
        }
        stage("Build") {
            steps {
-               sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ && mvn clean install && mvn hpi:hpi'
-               script {
-                  sh '''#!/bin/bash
-                        err1=$((0 + $RANDOM % 3))
-                        echo $err1
-                        if (("$err1" == 0))
-                        then
-                      currentBuild.result="SUCCESS"
-                      echo "Build result $err1: SUCCESS"                         
-                        else
-                      currentBuild.result="FAILURE"
-                      echo "Build result $err1: FAILURE"
-                        fi 
-                  ''' 
-                }
+               sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ && mvn clean install && mvn hpi:hpi && err1=$(shuf -i0-3 -n1) > errorcode'
+              script {
+                  res1 = readFile('errorcode').trim()
+                  if (res1 == 0) {
+                  currentBuild.result="SUCCESS"
+                  } else {
+                  currentBuild.result="FAILURE"
+                  }
+              }
             } 
        }    
        stage("Test") {
              steps {
-               sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ &&  mvn test'
-               script {
-                  sh '''#!/bin/bash
-                        err2=$((0 + $RANDOM % 3))
-                        echo $err2
-                        if (("$err2" == 0))
-                        then
-                      currentBuild.result="SUCCESS"
-                      echo "Build result $err2: SUCCESS"                         
-                        else
-                      currentBuild.result="FAILURE"
-                      echo "Build result $err2: FAILURE"
-                        fi 
-                  ''' 
-                }
+               sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ &&  mvn test && err2=$(shuf -i0-3 -n1) > errorcode'
+              script {
+                  res2 = readFile('errorcode').trim()
+                  if (res2 == 0) {
+                  currentBuild.result="SUCCESS"
+                  } else {
+                  currentBuild.result="FAILURE"
+                  }
+              }
             } 
        }
     }
