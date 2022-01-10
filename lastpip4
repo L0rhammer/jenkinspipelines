@@ -1,0 +1,48 @@
+node("slave-jnlp") { 
+       stage("Clone") {
+            sh 'cd /home/jenkins/ && git clone https://github.com/jenkinsci/prometheus-plugin && cd /home/jenkins/prometheus-plugin/ && git checkout prometheus-2.0.10'
+       } 
+       try {
+          stage("Build") {
+              tool name: 'M3', type: 'maven'
+              sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ && mvn clean install && mvn hpi:hpi'
+              sh '''
+                 #!/usr/bin/env bash
+                 ERR1=$(shuf -i0-1 -n1)             
+                 if [ ${ERR1} -eq "0" ]; then
+                    echo "Test stage success"
+                 else
+                    echo "Test stage failed"
+                    exit 1
+                 fi
+                 '''
+              currentBuild.result="SUCCESS"
+           }   
+         } catch(er) {
+                currentBuild.result="FAILURE"
+           }    
+       try {
+          stage("Test") {
+              sh 'sleep $(shuf -i 30-60 -n 1) && cd /home/jenkins/prometheus-plugin/ &&  mvn test'
+              sh '''
+                 #!/usr/bin/env bash
+                 ERR1=$(shuf -i0-1 -n1)             
+                 if [ ${ERR1} -eq "0" ]; then
+                    echo "Test stage success"
+                 else
+                    echo "Test stage failed"
+                    exit 1
+                 fi
+                 '''
+              currentBuild.result="SUCCESS"
+           }   
+         } catch(er) {
+                currentBuild.result="FAILURE"
+           }      
+       finally {
+             echo "${currentBuild.result}"
+             writeFile file: "artifact.txt", text: "${currentBuild.result}"
+             archiveArtifacts artifacts: "artifact.txt"
+       }
+}
+        
