@@ -12,6 +12,7 @@ pipeline {
        stage('Checkout') {
           steps {
             checkout([$class: 'GitSCM', branches: [[name: 'origin/master/pull*']], userRemoteConfigs: [[url: "https://github.com/L0rhammer/jenkinscripts"]]])
+            sh 'git fetch origin pull/2/head && git checkout -b pullrequest FETCH_HEAD'
           }
        }
        
