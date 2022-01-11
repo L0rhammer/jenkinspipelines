@@ -5,13 +5,12 @@ pipeline {
     stages {
        stage("Clone") {
            steps {
-            sh 'git clone -b $ghprbSourceBranch https://github.com/L0rhammer/jenkinscripts'
+            sh 'cd /home/jenkins/ && git clone -b $ghprbSourceBranch https://github.com/L0rhammer/jenkinscripts && cd /home/jenkins/jenkinscripts'
            }
        }
 
        stage("Build") {
            steps {
-           sh 'cd /home/jenkins/jenkinscripts'
            sh "bash ./build.sh "
            }
        }
