@@ -5,7 +5,7 @@ pipeline {
     stages {
        stage("Clone") {
            steps {
-            sh 'git clone -b $ghprbSourceBranch git@github.com:L0rhammer/jenkinspipelines'
+            sh 'git clone -b $ghprbSourceBranch https://github.com/L0rhammer/jenkinscripts'
            }
        }
 
