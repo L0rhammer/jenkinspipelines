@@ -5,8 +5,7 @@ pipeline {
     stages {
        stage("Clone") {
            steps {
-            git credentialsId: 'ea75b4c6-ea93-443b-9820-e63135b46ff3', url: 'https://github.com/L0rhammer/jenkinscripts.git'
-            sh 'git fetch origin pull/2/head && git checkout -b pullrequest FETCH_HEAD'
+            sh 'git clone -b $ghprbSourceBranch git@github.com:L0rhammer/jenkinspipelines'
            }
        }
 
