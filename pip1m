@@ -1,0 +1,33 @@
+pipeline {
+        
+    agent {label "slave-ssh"}
+        
+    stages {
+       stage("Clone") {
+           steps {
+            sh 'cd /home/jenkins/ && git clone https://github.com/L0rhammer/jenkinscripts'
+           }
+       }
+
+       stage("Build") {
+           steps {
+           sh "bash /home/jenkins/jenkinscripts/build.sh "
+           }
+       }
+      
+       stage("Test") {
+           steps {
+            sh "bash /home/jenkins/jenkinscripts/test.sh >test_result.txt"
+           }
+       }
+    }    
+    post {
+       always {
+           writeFile file: "artifact.txt", text: "${currentBuild.result}"
+           archiveArtifacts artifacts: "artifact.txt"
+       }
+       failure {
+           archiveArtifacts artifacts: "test_result.txt"
+       }
+    }
+}
